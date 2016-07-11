@@ -77,7 +77,7 @@ public class AppController {
 	
 	//-------------------Create a App--------------------------------------------------------
 	
-		@RequestMapping(value = "/app/", method = RequestMethod.POST)
+		@RequestMapping(value = "/app/create/", method = RequestMethod.POST)
 		public ResponseEntity<App> createApp(@RequestBody App app, UriComponentsBuilder ucBuilder) {
 			System.out.println("Creating App " + app.getTitle());
 
@@ -128,11 +128,11 @@ public class AppController {
 		//------------------- Delete a App --------------------------------------------------------
 		
 		@RequestMapping(value = "/app/{appid}", method = RequestMethod.DELETE)
-		public ResponseEntity<App> deleteApp(@RequestBody App app) {//@RequestBody App app --> 400 bad request, instead please use @PathVariable("appid") String appid
+		public ResponseEntity<App> deleteApp(@PathVariable("appid") String appid, @RequestBody App app) {//@RequestBody App app --> 400 bad request, instead please use @PathVariable("appid") String appid
 			//App app = new App();
 			//app.setAppid(appid);
 			System.out.println("\r\n"+app.getAppid());
-			String appid = app.getAppid();
+			//String appid = app.getAppid();
 			System.out.println("Fetching & Deleting App with appid " + app.getAppid());
 //
 			app = this.api.getAppService().deleteApp(app);

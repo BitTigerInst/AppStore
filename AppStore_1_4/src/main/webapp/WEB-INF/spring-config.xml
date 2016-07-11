@@ -16,8 +16,8 @@
 		base-package="com.appstore.services, com.appstore.api.dao.impl, com.appstore.controller" />
 
 	<http auto-config="true">
-		<intercept-url pattern="/pages/*" access="ROLE_USER" />
-		<intercept-url pattern="/app/*" access="ROLE_USER" />
+		<intercept-url pattern="/pages/*" access="ROLE_ANONYMOUS" />
+		<intercept-url pattern="/app/*" access="ROLE_ANONYMOUS" />
 		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<form-login login-page="/login" default-target-url="/pages/index"
 			authentication-failure-url="/login?error" username-parameter="username"

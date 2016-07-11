@@ -16,7 +16,11 @@
 #carousel-762850{
 	margin-top: 0px;
 	margin-bottom: 0px;
-	}
+}
+
+.list-group-item {
+	padding: 15px 15px;
+}
 
 .list-group-item-text {
 	width : 100%;
@@ -53,6 +57,9 @@ table img{
 	margin-top  : 10%;
 	margin-bottom  : 10%;
 }
+
+
+
 </style>
 </head>
 <body>
@@ -108,12 +115,20 @@ table img{
 			</div>
 		</div>
 	</div>
+
+	<!-- show all the app -->
 	<div class="row-fluid" ng-controller = "appList as apps">
 		<div class="span12">
-		
-			<div class="list-group" ng-show = "!apps.showApp">
-			
-				<a href="#" class="list-group-item active" >Top 10 Apps</a>
+			<div class="list-group" ng-show = "apps.showList">
+				<div class = "list-group-item active">
+					<i class="fa fa-bar-chart-o fa-fw"></i>Top 10 Apps
+					<div class="pull-right">
+                        
+                            <button type="button" class="btn btn-primary" ng-click="apps.addApp()">Add new APPs</button>
+                        
+                    </div>
+				</div>
+
 				<div class="list-group-item" ng-repeat = "app in apps.appList">
 					<table class="list-group-item-text">
 						<tr>
@@ -127,12 +142,99 @@ table img{
 						</tr>
 					</table>
 				</div>
+			</div>
+
+			<!-- add a new app -->
+			<div class = "addApp" ng-show = "apps.addShow">
+				<div class = list-group>
+				<a href="#" class="list-group-item active" ng-click= "apps.goBackToMain()">Go Back</a>
+				</div>
+
+				<table class="show-app-detail">
+					<tr>
+						<td rowspan = "2" colspan="1"><img class="app-detail-img" ng-src="{{apps.appToUpload.thumbnail_url}}"/></td>
+						<td rowspan = "1" colspan="1">{{apps.appToUp.title}}</td>
+					</tr>
+					
+					<tr>
+						<td rowspan = "1" colspan="1">{{apps.appToUp.developer}}</td>
+					</tr>
+					
+				</table>
 				
+				<form ng-submit = "apps.submit()">
+					<h4> submit your app </h4>
+
+					<fieldset class = "form-group">
+ 						<input type = "text" title = "name" ng-model = "apps.appToUp.title" placeholder="name" />
+					</fieldset>
+
+					<fieldset class = "form-group">
+						<input type = "text" title = "url" ng-model = "apps.appToUp.url" placeholder="url"/>
+					</fieldset>
+
+					<fieldset class = "form-group"> 
+						<input type = "text" title = "thumbnail_url" ng-model = "apps.appToUp.thumbnail_url" placeholder="thumbnail_url"/>
+					</fieldset>
+
+					<fieldset class = "form-group">
+						<textarea  ng-model = "apps.appToUp.intro" placeholder=" please introduce your app " > </textarea>
+					</fieldset>
+					
+					<fieldset class = "form-group">
+						<input type = "text" title = "dev" ng-model = "apps.appToUp.developer" placeholder="developer"/> 
+					</fieldset>
+
+					<fieldset class="form-group">
+                		<input type="submit" class="btn btn-primary pull-right" value="Submit"/>
+              		</fieldset>
+				</form>
+			</div>
+
+
+			<!-- update a status of app -->
+			<div class = "update" ng-show = "apps.showupdate">
+				<div class = list-group>
+				<a href="#" class="list-group-item active" ng-click= "apps.goBackToMain()">Go Back</a>
+				</div>
+
+				<form ng-submit = "apps.update()" ng-init = "apps.appUpdate = apps.appToShow">
+					<h4> update your app </h4>
+					<fieldset class = "form-group">
+ 						<input type = "text" title = "name" ng-model = "apps.appUpdate.title" placeholder="{{apps.appToShow.title}}" />
+					</fieldset>
+
+					<fieldset class = "form-group">
+						<input type = "text" title = "url" ng-model = "apps.appUpdate.url" placeholder="{{apps.appToShow.url}}"/>
+					</fieldset>
+
+					<fieldset class = "form-group"> 
+						<input type = "text" title = "thumbnail_url" ng-model = "apps.appUpdate.thumbnail_url" placeholder="{{apps.appToShow.thumbnail_url}}"/>
+					</fieldset>
+
+					<fieldset class = "form-group">
+						<textarea  ng-model = "apps.appUpdate.intro" placeholder="{{apps.appToShow.intro}}" > </textarea>
+					</fieldset>
+					
+					<fieldset class = "form-group">
+						<input type = "text" title = "dev" ng-model = "apps.appUpdate.developer" placeholder="{{appToShow.developer}}"/> 
+					</fieldset>
+
+					<fieldset class="form-group">
+                		<input type="submit" class="btn btn-primary pull-right" value="Submit"/>
+              		</fieldset>
+				</form>
 			</div>
 			
+
+
+			<!-- show one app -->
 			<div class = "showApp" ng-show = "apps.showApp">
 				<div class = list-group>
 				<a href="#" class="list-group-item active" ng-click= "apps.goBackToMain()">Go Back</a>
+
+				<a href="#" class="list-group-item active" ng-click= "apps.change()">update these app</a>
+				
 				<div class="list-group-item">
 					<table class="show-app-detail">
 						<tr>
@@ -170,6 +272,8 @@ table img{
 						</p>
 					</div>
 				</div>
+
+				<a href="#" class="list-group-item active" ng-click= "apps.delete(apps.appToShow)">delete this app</a>
 			</div>
 			</div>
 

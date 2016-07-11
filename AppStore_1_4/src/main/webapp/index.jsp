@@ -16,7 +16,11 @@
 #carousel-762850{
 	margin-top: 0px;
 	margin-bottom: 0px;
-	}
+}
+
+.list-group-item {
+	padding: 15px 15px;
+}
 
 .list-group-item-text {
 	width : 100%;
@@ -53,6 +57,9 @@ table img{
 	margin-top  : 10%;
 	margin-bottom  : 10%;
 }
+
+
+
 </style>
 </head>
 <body>
@@ -109,11 +116,20 @@ table img{
 		</div>
 	</div>
 	<div class="row-fluid" ng-controller = "appList as apps">
-		<div class="span12">
 		
-			<div class="list-group" ng-show = "!apps.showApp">
+		<div class="span12">
+
+			<div class="list-group" ng-show = "apps.showList">
 			
-				<a href="#" class="list-group-item active" >Top 10 Apps</a>
+				<div class = "list-group-item active">
+					<i class="fa fa-bar-chart-o fa-fw"></i>Top 10 Apps
+					<div class="pull-right">
+                        
+                            <button type="button" class="btn btn-primary" ng-click="apps.addApp()">Add new APPs</button>
+                        
+                    </div>
+				</div>
+
 				<div class="list-group-item" ng-repeat = "app in apps.appList">
 					<table class="list-group-item-text">
 						<tr>
@@ -127,9 +143,63 @@ table img{
 						</tr>
 					</table>
 				</div>
-				
 			</div>
+
+			<div class = "addApp" ng-show = "apps.addShow">
 			
+				<table class="show-app-detail">
+					<tr>
+						<td rowspan = "2" colspan="1"><img class="app-detail-img" ng-src="{{apps.appToUpload.thumbnail_url}}"/></td>
+						<td rowspan = "1" colspan="1">{{apps.appToUp.title}}</td>
+					</tr>
+					
+					<tr>
+						<td rowspan = "1" colspan="1">{{apps.appToUp.developer}}</td>
+					</tr>
+					
+				</table>
+				
+				<form ng-submit = "apps.submit()">
+					<h4> submit your app </h4>
+
+<!-- 
+			| appid         | varchar(20)  | NO   | PRI | NULL    |       |
+			| score         | int(2)       | YES  |     | NULL    |       |
+			| title         | varchar(30)  | YES  |     | NULL    |       |
+			| url           | varchar(255) | YES  |     | NULL    |       |
+			| thumbnail_url | varchar(255) | YES  |     | NULL    |       |
+			| intro         | varchar(255) | YES  |     | NULL    |       |
+			| developer     | varchar(255) | YES  |     | NULL    |       |
+			| top5App       | varchar(110) | YES  |     | NULL    |       |					
+ -->
+
+					<fieldset class = "form-group">
+ 						<input type = "text" title = "name" ng-model = "apps.appToUp.title" placeholder="name" />
+					</fieldset>
+
+					<fieldset class = "form-group">
+						<input type = "text" title = "url" ng-model = "apps.appToUp.url" placeholder="url"/>
+					</fieldset>
+
+					<fieldset class = "form-group"> 
+						<input type = "text" title = "thumbnail_url" ng-model = "apps.appToUp.thumbnail_url" placeholder="thumbnail_url"/>
+					</fieldset>
+
+					<fieldset class = "form-group">
+						<textarea  ng-model = "apps.appToUp.intro" placeholder=" please introduce your app " > </textarea>
+					</fieldset>
+					
+					<fieldset class = "form-group">
+						<input type = "text" title = "dev" ng-model = "apps.appToUp.developer" placeholder="developer"/> 
+					</fieldset>
+
+					<fieldset class="form-group">
+                		<input type="submit" class="btn btn-primary pull-right" value="Submit"/>
+              		</fieldset>
+				</form>
+			</div>
+
+		
 			<div class = "showApp" ng-show = "apps.showApp">
 				<div class = list-group>
 				<a href="#" class="list-group-item active" ng-click= "apps.goBackToMain()">Go Back</a>
