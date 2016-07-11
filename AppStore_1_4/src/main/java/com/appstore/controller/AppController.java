@@ -85,6 +85,7 @@ public class AppController {
 				System.out.println("A app with name " + app.getTitle() + " already exist");
 				return new ResponseEntity<App>(HttpStatus.CONFLICT);
 			}
+			
 
 			app = this.api.getAppService().createApp(app);
 			
@@ -118,24 +119,26 @@ public class AppController {
 			if (currentApp==null) {
 				System.out.println("App with id " + appid + " not found");
 				return new ResponseEntity<App>(HttpStatus.NOT_FOUND);
-			}else if(appid.equals(app.getAppid()))
+			}else if(!appid.equals(app.getAppid()))
 				return new ResponseEntity<App>(HttpStatus.CONFLICT);
 			
-			this.api.getAppService().updateApp(app);
+			currentApp = this.api.getAppService().updateApp(app);
 			return new ResponseEntity<App>(currentApp, HttpStatus.OK);
 		}
 
 		//------------------- Delete a App --------------------------------------------------------
 		
 		@RequestMapping(value = "/app/{appid}", method = RequestMethod.DELETE)
-		public ResponseEntity<App> deleteApp(@PathVariable("appid") String appid, @RequestBody App app) {//@RequestBody App app --> 400 bad request, instead please use @PathVariable("appid") String appid
+		public ResponseEntity<App> deleteApp(@PathVariable("appid") String appid) {//@RequestBody App app --> 400 bad request, instead please use @PathVariable("appid") String appid
 			//App app = new App();
 			//app.setAppid(appid);
-			System.out.println("\r\n"+app.getAppid());
+			System.out.println("\r\n"+ appid);
 			//String appid = app.getAppid();
-			System.out.println("Fetching & Deleting App with appid " + app.getAppid());
+			System.out.println("Fetching & Deleting App with appid " + appid);
 //
-			app = this.api.getAppService().deleteApp(app);
+			App app = this.api.getAppService().readApp(appid);
+			this.api.getAppService().deleteApp(app);
+	
 			if (app == null) {
 				System.out.println("Unable to delete. App with id " + appid + " not found");
 				return new ResponseEntity<App>(HttpStatus.NOT_FOUND);

@@ -1,7 +1,7 @@
 (function(){
 	  var homeApp = angular.module('top', []);
 	  
-	  homeApp.controller('appList',['$http','$window',function($http,$window){
+	  homeApp.controller('appList',['$http','$window','$scope', function($http,$window,$scope){
 		  this.appList = [];//jobs;
 		  this.showApp = false;
 		  this.addShow = false;
@@ -15,7 +15,21 @@
 
 		  var container = this;
 		  
-		  var req = {
+		 
+
+
+		  $scope.getTop = function(){
+		  	  container.showApp = false;
+			  container.addShow = false;
+			  container.showList = true;
+			  container.showupdate = false;
+
+			  container.appToShow = null;
+			  container.appToRecom = null;
+			  container.appToUp = null;
+			  container.appUpdate = null;			  
+		  	
+		  	var req = {
 				  method: 'GET',
 				  url: "/AppStore_1_4/app/",
 				  headers: {
@@ -30,9 +44,14 @@
 			  
 			  console.log("reveive array successfully");
 		    });
+		  }
+
+
+		   $scope.getTop();
 		  
-		  this.selectApp = function(app){ 
+		  $scope.selectApp = function(app){ 
 			  container.appToShow = app;
+			  container.appUpdate = app;
 			  container.showApp =true;
 			  container.showList = false;
 
@@ -63,17 +82,14 @@
 			    );
 		  };//end-seleCate
 		  
-		  this.goBackToMain = function(){
-			  container.showApp = false;
-			  container.showList = true;
-			  container.addShow = false;
-			  container.showupdate = false;
+		  $scope.goBackToMain = function(){
+			  $scope.getTop();
 		  };
 
 
 
 		  // upload the app 
-		  this.submit = function(){
+		  $scope.submit = function(){
 		  	container.appToUp.appid = "";
 		  	container.appToUp.top5App = "";
 		  	container.appToUp.score = 0;
@@ -96,7 +112,7 @@
 			  	  console.log(response);
 				  console.log("reveive array successfully");
 				  
-				  container.selectApp(response.data);
+				  $scope.selectApp(response.data);
 
 				  container.appToUp = "";
 				  //goBackToMain();
@@ -109,18 +125,22 @@
 			  		alert("something wrong with your applicaton");
 			  	}
 			  	container.appToUp = "";
-			  	container.goBackToMain();
+			  	$scope.goBackToMain();
 			  }
 			);
 		  };
 
 
-		  this.update = function(){
+		  $scope.update = function(){
+		  	console.log(container.appUpdate);
+		  	delete container.appUpdate.top5AppsArray;
+		  	delete container.appUpdate.$$hashKey;
+
 
 		  	var request = {
 		  		method: 'PUT',
-		  		url: "/AppStore_1_4/app/" + app.appid,
-		  		data: JSON.stringify(app),
+		  		url: "/AppStore_1_4/app/" + container.appUpdate.appid,
+		  		data: JSON.stringify(container.appUpdate),
 		  		headers:{
 		  			'Accept' : 'application/json',
 		  			'Content-Type':'application/json',
@@ -130,15 +150,17 @@
 		  	$http(request).then(
 		  		function(response){
 		  			console.log(response.status);
+		  			$scope.goBackToMain();
 		  		},
 		  		function(response){
 		  			console.log(response.status);
+		  			alert("something wrong");
 		  		}
 		  	);
 		  };
 
 
-		  this.delete = function(app){
+		  $scope.delete = function(app){
 		  	var request = {
 		  		method: 'DELETE',
 		  		url: "/AppStore_1_4/app/"+ app.appid,
@@ -155,22 +177,22 @@
 		  			console.log(response);
 		  			console.log(response.status);
 		  			alert("the app has been delete");
-		  			container.goBackToMain();
+		  			
+		  			$scope.goBackToMain();
+
 		  		}, function(response){
 		  			alert("the app cannot be deleted");
 		  		}
 		  	);
 		  };
 
-
-
-		  this.addApp = function(){
+		  $scope.addApp = function(){
 		      container.addShow = true;
 		      container.showList = false;
  
 		  };
 
-		  this.change = function(){
+		  $scope.change = function(){
 		  	container.showApp = false;
 		  	container.showupdate = true;
 		  }

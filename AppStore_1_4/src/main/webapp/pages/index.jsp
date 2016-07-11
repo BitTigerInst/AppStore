@@ -124,7 +124,7 @@ table img{
 					<i class="fa fa-bar-chart-o fa-fw"></i>Top 10 Apps
 					<div class="pull-right">
                         
-                            <button type="button" class="btn btn-primary" ng-click="apps.addApp()">Add new APPs</button>
+                            <button type="button" class="btn btn-primary" ng-click="addApp()">Add new APPs</button>
                         
                     </div>
 				</div>
@@ -135,7 +135,7 @@ table img{
 							<td id = "show_appid" rowspan = "2">{{app.appid}}</td>
 							<td id = "show_img" rowspan = "2"><img alt="app_img" ng-src="{{app.thumbnail_url}}"/></td>
 							<td id = "show_appname" colspan="2">{{app.title}}</td>
-							<td id = "get_appdetail" rowspan="2"><button class="btn btn-primary" type="button" ng-click="apps.selectApp(app)">GET</button> </td>
+							<td id = "get_appdetail" rowspan="2"><button class="btn btn-primary" type="button" ng-click="selectApp(app)">GET</button> </td>
 						</tr>
 						<tr>
 							<td id= "show_rate" colspan="2">rate:{{app.score}}/10</td>
@@ -147,15 +147,17 @@ table img{
 			<!-- add a new app -->
 			<div class = "addApp" ng-show = "apps.addShow">
 				<div class = list-group>
-				<a href="#" class="list-group-item active" ng-click= "apps.goBackToMain()">Go Back</a>
+				<a href="#" class="list-group-item active" ng-click= "goBackToMain()">Go Back</a>
 				</div>
 
 				<table class="show-app-detail">
 					<tr>
-						<td rowspan = "2" colspan="1"><img class="app-detail-img" ng-src="{{apps.appToUpload.thumbnail_url}}"/></td>
+						<td rowspan = "2" colspan="1"><img class="app-detail-img" ng-src="{{apps.appToUp.thumbnail_url}}"/></td>
+						
+
 						<td rowspan = "1" colspan="1">{{apps.appToUp.title}}</td>
 					</tr>
-					
+
 					<tr>
 						<td rowspan = "1" colspan="1">{{apps.appToUp.developer}}</td>
 					</tr>
@@ -195,10 +197,10 @@ table img{
 			<!-- update a status of app -->
 			<div class = "update" ng-show = "apps.showupdate">
 				<div class = list-group>
-				<a href="#" class="list-group-item active" ng-click= "apps.goBackToMain()">Go Back</a>
+				<a href="#" class="list-group-item active" ng-click= "goBackToMain()">Go Back</a>
 				</div>
 
-				<form ng-submit = "apps.update()" ng-init = "apps.appUpdate = apps.appToShow">
+				<form ng-submit = "update()">
 					<h4> update your app </h4>
 					<fieldset class = "form-group">
  						<input type = "text" title = "name" ng-model = "apps.appUpdate.title" placeholder="{{apps.appToShow.title}}" />
@@ -209,7 +211,7 @@ table img{
 					</fieldset>
 
 					<fieldset class = "form-group"> 
-						<input type = "text" title = "thumbnail_url" ng-model = "apps.appUpdate.thumbnail_url" placeholder="{{apps.appToShow.thumbnail_url}}"/>
+						<input type = "text" title = "thumbnail_url" ng-model = "apps.appUpdate.thumbnail_url" placeholder="{{apps.appToShow.thumbnail_url}}"/> 
 					</fieldset>
 
 					<fieldset class = "form-group">
@@ -231,9 +233,9 @@ table img{
 			<!-- show one app -->
 			<div class = "showApp" ng-show = "apps.showApp">
 				<div class = list-group>
-				<a href="#" class="list-group-item active" ng-click= "apps.goBackToMain()">Go Back</a>
+				<a href="#" class="list-group-item active" ng-click= "goBackToMain()">Go Back</a>
 
-				<a href="#" class="list-group-item active" ng-click= "apps.change()">update these app</a>
+				<a href="#" class="list-group-item active" ng-click= "change()">update these app</a>
 				
 				<div class="list-group-item">
 					<table class="show-app-detail">
@@ -273,7 +275,7 @@ table img{
 					</div>
 				</div>
 
-				<a href="#" class="list-group-item active" ng-click= "apps.delete(apps.appToShow)">delete this app</a>
+				<a href="#" class="list-group-item active" ng-click= "delete(apps.appToShow)">delete this app</a>
 			</div>
 			</div>
 
