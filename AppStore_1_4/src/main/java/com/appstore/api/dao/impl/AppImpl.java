@@ -19,10 +19,45 @@ public class AppImpl implements AppDAO{
 	 * @see com.appstore.api.dao.AppDAO#createApp(com.appstore.entity.App)
 	 */
 	public App createApp(App appObj) {
-		// TODO Auto-generated method stub
-		Object obj = this.getSession().save(appObj);
-		appObj = this.readApp(obj.toString());
-		return appObj;
+
+		session = null;
+		tx = null;
+
+		try {
+			session = this.getSessionFactory().openSession();
+			tx = session.beginTransaction();
+			tx.setTimeout(5);
+			Query query = this.getSession()
+					.createQuery("select Max(app.appid) from App as app where app.appid like :appid")
+					.setString("appid", "C%");
+			query.setLockMode("app", LockMode.WRITE);
+			String maxId = (String) query.uniqueResult();
+			Matcher m = pattern.matcher(maxId);
+			if (m.find()) {
+				String maxNumericInString = m.group(1);
+				BigInteger maxNumericInInteger = new BigInteger(maxNumericInString);
+				BigInteger nextNumbericInInteger = maxNumericInInteger.add(BigInteger.valueOf(1));
+				String nextId = "C" + nextNumbericInInteger.toString();
+				appObj.setAppid(nextId);
+				Object obj = this.getSession().save(appObj);
+				appObj = this.readApp(nextId);
+			}
+			tx.commit();
+			return appObj;
+		} catch (RuntimeException e) {
+			try {
+				if (tx != null) {
+					tx.rollback();
+				}
+			} catch (RuntimeException rbe) {
+				logger.error("Couldn¡¯t roll back transaction", rbe);
+			}
+			throw e;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 
 	@Override
