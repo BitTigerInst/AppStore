@@ -1,18 +1,25 @@
 package com.appstore.api.dao.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import com.appstore.entity.App;
 import com.appstore.api.dao.AppDAO;
 
 public class AppImpl implements AppDAO{
 	private SessionFactory sessionFactory;
-	
+	private Pattern pattern = Pattern.compile("D(\\d+)");
+	private static Logger logger = Logger.getLogger(AppImpl.class);
 	@Override
 	/*
 	 * Problem: App's coms and cata are both fetchType.EAGER, but when read, they are loaded.
@@ -20,8 +27,8 @@ public class AppImpl implements AppDAO{
 	 */
 	public App createApp(App appObj) {
 
-		session = null;
-		tx = null;
+		Session session = null;
+		Transaction tx = null;
 
 		try {
 			session = this.getSessionFactory().openSession();
@@ -29,7 +36,7 @@ public class AppImpl implements AppDAO{
 			tx.setTimeout(5);
 			Query query = this.getSession()
 					.createQuery("select Max(app.appid) from App as app where app.appid like :appid")
-					.setString("appid", "C%");
+					.setString("appid", "D%");
 			query.setLockMode("app", LockMode.WRITE);
 			String maxId = (String) query.uniqueResult();
 			Matcher m = pattern.matcher(maxId);
@@ -37,7 +44,7 @@ public class AppImpl implements AppDAO{
 				String maxNumericInString = m.group(1);
 				BigInteger maxNumericInInteger = new BigInteger(maxNumericInString);
 				BigInteger nextNumbericInInteger = maxNumericInInteger.add(BigInteger.valueOf(1));
-				String nextId = "C" + nextNumbericInInteger.toString();
+				String nextId = "D" + nextNumbericInInteger.toString();
 				appObj.setAppid(nextId);
 				Object obj = this.getSession().save(appObj);
 				appObj = this.readApp(nextId);
@@ -50,7 +57,7 @@ public class AppImpl implements AppDAO{
 					tx.rollback();
 				}
 			} catch (RuntimeException rbe) {
-				logger.error("Couldn¡¯t roll back transaction", rbe);
+				logger.error("Couldnï¿½ï¿½t roll back transaction", rbe);
 			}
 			throw e;
 		} finally {
