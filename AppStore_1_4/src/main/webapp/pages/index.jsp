@@ -164,7 +164,7 @@ table img{
 					
 				</table>
 				
-				<form ng-submit = "apps.submit()">
+				<form ng-submit = "submit()">
 					<h4> submit your app </h4>
 
 					<fieldset class = "form-group">
