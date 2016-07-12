@@ -103,8 +103,8 @@ public class AppImpl implements AppDAO{
 	@Override
 	public boolean isAppExist(App app) {
 		// TODO Auto-generated method stub
-		String appid = app.getAppid();
-		Query query = this.getSession().createQuery("select count(*) from App app where app.appid = :appid").setString("appid", appid);
+		String title = app.getTitle();
+		Query query = this.getSession().createQuery("select count(*) from App app where app.title = :title").setString("title", title);
 		long count = (long) query.uniqueResult();
 		return count == 1 ? true : false;
 	}
