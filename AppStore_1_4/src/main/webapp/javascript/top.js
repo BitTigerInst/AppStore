@@ -54,6 +54,7 @@
 			  container.appUpdate = app;
 			  container.showApp =true;
 			  container.showList = false;
+			  container.addShow = false;
 
 			  console.log(JSON.stringify(app.top5AppsArray));
 			  var reqest = {
@@ -113,7 +114,7 @@
 				  console.log("reveive array successfully");
 				  
 				  $scope.selectApp(response.data);
-
+				  
 				  container.appToUp = "";
 				  //goBackToMain();
 			  },function(response){
