@@ -34,21 +34,19 @@ public class AppImpl implements AppDAO{
 			session = this.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 			tx.setTimeout(5);
+
 			Query query = this.getSession()
-					.createQuery("select Max(app.appid) from App as app where app.appid like :appid")
+					.createQuery("SELECT MAX(CAST(SUBSTRING(app.appid,2) AS int)) AS Computed "
+							   + "from App as app where app.appid like :appid")
 					.setString("appid", "D%");
 			query.setLockMode("app", LockMode.WRITE);
-			String maxId = (String) query.uniqueResult();
-			Matcher m = pattern.matcher(maxId);
-			if (m.find()) {
-				String maxNumericInString = m.group(1);
-				BigInteger maxNumericInInteger = new BigInteger(maxNumericInString);
-				BigInteger nextNumbericInInteger = maxNumericInInteger.add(BigInteger.valueOf(1));
-				String nextId = "D" + nextNumbericInInteger.toString();
-				appObj.setAppid(nextId);
-				Object obj = this.getSession().save(appObj);
-				appObj = this.readApp(nextId);
-			}
+			Integer maxId = (Integer) query.uniqueResult();
+			Integer nextId = maxId + 1;
+			String nextIdString = "D" + nextId.toString();
+			appObj.setAppid(nextIdString);
+			Object obj = this.getSession().save(appObj);
+			appObj = this.readApp(nextIdString);
+
 			tx.commit();
 			return appObj;
 		} catch (RuntimeException e) {
@@ -57,7 +55,7 @@ public class AppImpl implements AppDAO{
 					tx.rollback();
 				}
 			} catch (RuntimeException rbe) {
-				logger.error("Couldn��t roll back transaction", rbe);
+				logger.error("Couldn't roll back transaction", rbe);
 			}
 			throw e;
 		} finally {
