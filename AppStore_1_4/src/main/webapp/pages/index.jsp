@@ -118,14 +118,14 @@ table img{
 
 	<!-- show all the app -->
 	<div class="row-fluid" ng-controller = "appList as apps">
-		<div class="span12">
+		<div class="span12" ng-init = "loggin = ${pageContext.request.userPrincipal.name}">
+		
 			<div class="list-group" ng-show = "apps.showList">
 				<div class = "list-group-item active">
 					<i class="fa fa-bar-chart-o fa-fw"></i>Top 10 Apps
 					<div class="pull-right">
-                        
-                            <button type="button" class="btn btn-primary" ng-click="addApp()">Add new APPs</button>
-                        
+						
+                        <button type="button" class="btn btn-primary" ng-click="addApp()">Add new APPs</button>
                     </div>
 				</div>
 
@@ -227,8 +227,6 @@ table img{
               		</fieldset>
 				</form>
 			</div>
-			
-
 
 			<!-- show one app -->
 			<div class = "showApp" ng-show = "apps.showApp">

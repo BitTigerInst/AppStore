@@ -133,6 +133,7 @@
 
 
 		  $scope.update = function(){
+
 		  	console.log(container.appUpdate);
 		  	delete container.appUpdate.top5AppsArray;
 		  	delete container.appUpdate.$$hashKey;
@@ -162,6 +163,7 @@
 
 
 		  $scope.delete = function(app){
+			if(!$scope.loggin || $scope.loggin == "") return;
 		  	var request = {
 		  		method: 'DELETE',
 		  		url: "/AppStore_1_4/app/"+ app.appid,
@@ -188,12 +190,14 @@
 		  };
 
 		  $scope.addApp = function(){
+			  if(!$scope.loggin || $scope.loggin == "") return;
 		      container.addShow = true;
 		      container.showList = false;
  
 		  };
 
 		  $scope.change = function(){
+			if(!$scope.loggin || $scope.loggin == "") return;
 		  	container.showApp = false;
 		  	container.showupdate = true;
 		  }
