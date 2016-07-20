@@ -34,7 +34,7 @@ public class SecurityCoreUserDetailsServiceImpl implements UserDetailsService  {
 
     private GrantedAuthority[] makeGrantedAuthorities(User user) {
         GrantedAuthority[] result = new GrantedAuthority[1];
-        result[0] = new SimpleGrantedAuthority("ROLE_USER");
+        result[0] = new SimpleGrantedAuthority(user.getUserrole());
         return result;
     }
 }

@@ -11,6 +11,7 @@ public class User {
 	String username;
 	String password;
 	String email;
+	String userrole;
 	
 	@Id
 	public String getUserid() {
@@ -43,6 +44,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getUserrole() {
+		return userrole;
+	}
+
+	public void setUserrole(String userRole) {
+		this.userrole = userRole;
 	}
 
 }
