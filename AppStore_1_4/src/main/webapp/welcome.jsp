@@ -3,7 +3,7 @@
 <html>
 <body>
 	<h1>Welcome to App Store</h1>
-	<a href="login">Login</a>
+	<a href="login">Login with wuqun1/wuqun1</a>
 	<br/>
 	<a href="pages/index">Enter to App Store</a>
 	<br/>
