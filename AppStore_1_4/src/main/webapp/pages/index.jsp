@@ -118,7 +118,7 @@ table img{
 
 	<!-- show all the app -->
 	<div class="row-fluid" ng-controller = "appList as apps">
-		<div class="span12" ng-init = "loggin = ${pageContext.request.userPrincipal.name}">
+		<div class="span12" ng-init = "loggin = '${pageContext.request.userPrincipal.name}'">
 		
 			<div class="list-group" ng-show = "apps.showList">
 				<div class = "list-group-item active">
