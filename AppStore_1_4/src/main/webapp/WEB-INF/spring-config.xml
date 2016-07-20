@@ -17,9 +17,9 @@
 
 	<http auto-config="true">
 		<intercept-url pattern="/app/**" access="IS_AUTHENTICATED_ANONYMOUSLY" method="GET"/>
-	<!-- 	<intercept-url pattern="/app/**" access="ROLE_admin" method="PUT"/>
-		<intercept-url pattern="/app/**" access="ROLE_admin" method="DELETE"/>
-		<intercept-url pattern="/app/**" access="ROLE_admin" method="POST"/> -->
+		<intercept-url pattern="/app/**" access="ROLE_USER" method="PUT"/>
+		<intercept-url pattern="/app/**" access="ROLE_USER" method="DELETE"/>
+		<intercept-url pattern="/app/**" access="ROLE_USER" method="POST"/>
 		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<form-login login-page="/login" default-target-url="/pages/index"
 			authentication-failure-url="/login?error" username-parameter="username"

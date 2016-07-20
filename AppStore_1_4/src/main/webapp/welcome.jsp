@@ -3,9 +3,9 @@
 <html>
 <body>
 	<h1>Welcome to App Store</h1>
-	<a href="index.jsp">Without security</a>
+	<a href="login">Login</a>
 	<br/>
-	<a href="pages/index">With security</a>
+	<a href="pages/index">Enter to App Store</a>
 	<br/>
 
 	<c:url value="/j_spring_security_logout" var="logoutUrl" />

@@ -146,7 +146,7 @@ table img{
 
 			<!-- add a new app -->
 			<div class = "addApp" ng-show = "apps.addShow">
-				<div class = list-group>
+				<div class = "list-group">
 				<a href="#" class="list-group-item active" ng-click= "goBackToMain()">Go Back</a>
 				</div>
 
@@ -196,7 +196,7 @@ table img{
 
 			<!-- update a status of app -->
 			<div class = "update" ng-show = "apps.showupdate">
-				<div class = list-group>
+				<div class = "list-group">
 				<a href="#" class="list-group-item active" ng-click= "goBackToMain()">Go Back</a>
 				</div>
 
@@ -230,7 +230,7 @@ table img{
 
 			<!-- show one app -->
 			<div class = "showApp" ng-show = "apps.showApp">
-				<div class = list-group>
+				<div class = "list-group">
 				<a href="#" class="list-group-item active" ng-click= "goBackToMain()">Go Back</a>
 
 				<a href="#" class="list-group-item active" ng-click= "change()">update these app</a>

@@ -1,1 +1,5 @@
+/app_log.log
+/appstore.sql
+/changes.sql
 /com/
+/log4j.properties
