@@ -1,13 +1,8 @@
 package com.appstore.api.dao.impl;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,14 +13,12 @@ import com.appstore.api.dao.AppDAO;
 
 public class AppImpl implements AppDAO{
 	private SessionFactory sessionFactory;
-	private Pattern pattern = Pattern.compile("D(\\d+)");
 	private static Logger logger = Logger.getLogger(AppImpl.class);
 	@Override
 	/*
-	 * Problem: App's coms and cata are both fetchType.EAGER, but when read, they are loaded.
 	 * @see com.appstore.api.dao.AppDAO#createApp(com.appstore.entity.App)
 	 */
-	public App createApp(App appObj) {
+	public synchronized App createApp(App appObj) {
 
 		Session session = null;
 		Transaction tx = null;
@@ -39,15 +32,15 @@ public class AppImpl implements AppDAO{
 					.createQuery("SELECT MAX(CAST(SUBSTRING(app.appid,2) AS int)) AS Computed "
 							   + "from App as app where app.appid like :appid")
 					.setString("appid", "D%");
-			query.setLockMode("app", LockMode.WRITE);
+			
 			Integer maxId = (Integer) query.uniqueResult();
 			Integer nextId = maxId + 1;
 			String nextIdString = "D" + nextId.toString();
 			appObj.setAppid(nextIdString);
-			Object obj = this.getSession().save(appObj);
-			appObj = this.readApp(nextIdString);
-
+			session.save(appObj);
+			session.flush();
 			tx.commit();
+			
 			return appObj;
 		} catch (RuntimeException e) {
 			try {
