@@ -24,12 +24,11 @@ public class AppImpl implements AppDAO{
 		Transaction tx = null;
 
 		try {
-			session = this.getSessionFactory().openSession();
+			session = this.getSession();
 			tx = session.beginTransaction();
 			tx.setTimeout(5);
 
-			Query query = this.getSession()
-					.createQuery("SELECT MAX(CAST(SUBSTRING(app.appid,2) AS int)) AS Computed "
+			Query query = session.createQuery("SELECT MAX(CAST(SUBSTRING(app.appid,2) AS int)) AS Computed "
 							   + "from App as app where app.appid like :appid")
 					.setString("appid", "D%");
 			
